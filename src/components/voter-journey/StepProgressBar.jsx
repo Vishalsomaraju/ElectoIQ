@@ -1,6 +1,5 @@
 // src/components/voter-journey/StepProgressBar.jsx
 import { memo } from "react";
-// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
 import { cn } from "../../utils/helpers";

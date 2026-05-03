@@ -1,6 +1,5 @@
 // src/pages/Dashboard.jsx
 import { useMemo } from "react";
-// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { Trophy, BookOpen, MapPin, BarChart3, Zap, Star } from "lucide-react";
 import { Link } from "react-router-dom";

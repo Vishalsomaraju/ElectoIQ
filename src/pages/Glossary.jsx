@@ -1,6 +1,5 @@
 // src/pages/Glossary.jsx
 import React, { useState, useMemo, useCallback, useEffect } from "react";
-// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, BookOpen, X } from "lucide-react";
 import { AnimatedPage } from "../components/shared/AnimatedPage";

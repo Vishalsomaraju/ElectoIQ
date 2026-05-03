@@ -2,7 +2,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { logger } from "../../utils/logger";
 import { Link, useLocation } from "react-router-dom";
-// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Sun, Moon, LogOut, Loader2 } from "lucide-react";
 import { cn } from "../../utils/helpers";

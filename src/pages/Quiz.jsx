@@ -1,6 +1,5 @@
 // src/pages/Quiz.jsx
 import { useState, useCallback, useEffect } from "react";
-// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Brain,

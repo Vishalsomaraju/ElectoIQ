@@ -20,7 +20,6 @@ export function AuthProvider({ children }) {
  * @returns {Object} Authentication state and methods
  * @throws {Error} If used outside of AuthProvider
  */
-// eslint-disable-next-line react-refresh/only-export-components
 export function useAuthContext() {
   const ctx = useContext(AuthContext)
   if (!ctx) throw new Error('useAuthContext must be used within AuthProvider')

@@ -1,6 +1,5 @@
 // src/components/shared/ChatDrawer.jsx
 import { useRef, useEffect, useState, useCallback } from 'react'
-// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send, Bot, User, Loader2 } from 'lucide-react'
 import { useAppContext } from '../../context/AppContext'

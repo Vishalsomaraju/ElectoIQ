@@ -128,7 +128,6 @@ export function AppProvider({ children }) {
  * @returns {Object} App state and dispatch method
  * @throws {Error} If used outside of AppProvider
  */
-// eslint-disable-next-line react-refresh/only-export-components
 export function useAppContext() {
   const ctx = useContext(AppContext)
   if (!ctx) throw new Error('useAppContext must be used within AppProvider')
