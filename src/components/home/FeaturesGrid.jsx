@@ -7,8 +7,8 @@ import {
   ClipboardList,
   BookOpenText,
   BarChart3,
-  ArrowRight,
 } from "lucide-react";
+import { FeatureCard } from "./FeatureCard";
 
 const features = [
   {
@@ -77,14 +77,6 @@ const staggerContainer = {
   show: { transition: { staggerChildren: 0.1, delayChildren: 0.1 } },
 };
 
-const cardVariant = {
-  hidden: { opacity: 0, y: 32 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
-  },
-};
 
 export function FeaturesGrid() {
   return (
@@ -125,67 +117,7 @@ export function FeaturesGrid() {
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
       >
         {features.map((f) => (
-          <motion.div key={f.title} variants={cardVariant}>
-            <Link
-              to={f.to}
-              className="group relative block h-full bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/8 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-slate-300 dark:hover:border-white/20 shadow-sm hover:shadow-xl hover:shadow-slate-200 dark:hover:shadow-black/40 overflow-hidden"
-            >
-              {/* Subtle accent glow on hover */}
-              <div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl pointer-events-none"
-                style={{
-                  background: `radial-gradient(ellipse at top left, ${f.bg} 0%, transparent 70%)`,
-                }}
-                aria-hidden="true"
-              />
-
-              {/* Icon container */}
-              <div
-                className="relative w-14 h-14 rounded-2xl flex items-center justify-center mb-5 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg"
-                style={{
-                  background: f.bg,
-                  boxShadow: `0 0 0 1px ${f.ring}`,
-                }}
-                aria-hidden="true"
-              >
-                <f.Icon
-                  size={26}
-                  strokeWidth={1.8}
-                  style={{ color: f.accent }}
-                />
-              </div>
-
-              {/* Title */}
-              <h3 className="font-display font-bold text-lg text-slate-900 dark:text-white mb-2 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
-                {f.title}
-              </h3>
-
-              {/* Desc */}
-              <p className="text-slate-600 dark:text-white/45 text-sm leading-relaxed mb-5">
-                {f.desc}
-              </p>
-
-              {/* CTA link */}
-              <div
-                className="flex items-center gap-1.5 text-sm font-semibold transition-all duration-200"
-                style={{ color: f.accent }}
-              >
-                Explore
-                <ArrowRight
-                  size={14}
-                  className="group-hover:translate-x-1 transition-transform duration-200"
-                  aria-hidden="true"
-                />
-              </div>
-
-              {/* Bottom accent bar on hover */}
-              <div
-                className="absolute bottom-0 left-0 right-0 h-[2px] rounded-b-2xl scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
-                style={{ background: f.accent }}
-                aria-hidden="true"
-              />
-            </Link>
-          </motion.div>
+          <FeatureCard key={f.title} feature={f} />
         ))}
       </motion.div>
     </section>

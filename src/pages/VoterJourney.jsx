@@ -1,16 +1,16 @@
-import { useState, useEffect, useCallback, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import confetti from "canvas-confetti";
+import { useState, useEffect, useCallback, useRef } from 'react'
+import { motion } from 'framer-motion'
+import confetti from 'canvas-confetti'
 import { AnimatedPage } from "../components/shared/AnimatedPage";
 import { PageWrapper } from "../components/layout/PageWrapper";
 import { SectionHeader } from "../components/shared/SectionHeader";
 import { useAuthContext } from "../context/AuthContext";
 import { useFirestore } from "../hooks/useFirestore";
-import { trackAnalyticsEvent, logAnalyticsEvent } from "../services/firebase";
-import { cn } from "../utils/helpers";
-import { StepProgressBar } from "../components/voter-journey/StepProgressBar";
-import { WizardNavigation } from "../components/voter-journey/WizardNavigation";
-import { WIZARD_STEPS } from "../data/wizardSteps";
+import { trackAnalyticsEvent, logAnalyticsEvent } from '../services/firebase'
+import { StepProgressBar } from '../components/voter-journey/StepProgressBar'
+import { WizardNavigation } from '../components/voter-journey/WizardNavigation'
+import { JourneyStepContent } from '../components/journey/JourneyStepContent'
+import { WIZARD_STEPS } from '../data/wizardSteps'
 
 export default function VoterJourney() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -113,39 +113,12 @@ export default function VoterJourney() {
             className="bg-white dark:bg-white/5 backdrop-blur-md rounded-3xl border border-slate-200 dark:border-white/10 overflow-hidden shadow-2xl relative min-h-[400px] flex flex-col focus:outline-none"
           >
             <div className="flex-1 p-6 md:p-10 relative overflow-hidden">
-              <AnimatePresence mode="popLayout" custom={direction}>
-                <motion.div
-                  key={currentStep}
-                  custom={direction}
-                  initial={{ opacity: 0, x: direction * 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: direction * -50 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                  className="w-full h-full"
-                >
-                  <div className="flex items-center gap-4 mb-8">
-                    <div
-                      className={cn(
-                        "w-12 h-12 rounded-xl flex items-center justify-center",
-                        ActiveStepData.bgColor,
-                        ActiveStepData.color,
-                      )}
-                    >
-                      <ActiveStepData.icon size={24} />
-                    </div>
-                    <div>
-                      <p className="text-sm font-mono text-slate-500 dark:text-white/40">
-                        Step {currentStep} of {WIZARD_STEPS.length}
-                      </p>
-                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
-                        {ActiveStepData.title}
-                      </h2>
-                    </div>
-                  </div>
-
-                  <ActiveStepData.Content />
-                </motion.div>
-              </AnimatePresence>
+              <JourneyStepContent
+                currentStep={currentStep}
+                totalSteps={WIZARD_STEPS.length}
+                direction={direction}
+                ActiveStepData={ActiveStepData}
+              />
             </div>
 
             {/* Navigation Footer */}
