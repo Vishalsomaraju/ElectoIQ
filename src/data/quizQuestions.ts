@@ -1,5 +1,16 @@
-// src/data/quizQuestions.js
-export const quizQuestions = [
+// src/data/quizQuestions.ts
+
+export interface QuizQuestion {
+  id: number
+  question: string
+  options: string[]
+  correct: number
+  explanation: string
+  category: string
+  difficulty: 'Easy' | 'Medium' | 'Hard'
+}
+
+export const quizQuestions: QuizQuestion[] = [
   {
     id: 1,
     question: 'How many seats are there in the Lok Sabha?',
@@ -137,5 +148,5 @@ export const quizQuestions = [
   },
 ]
 
-export const quizCategories = ['All', 'Structure', 'Regulation', 'Voter', 'Technology', 'Institution', 'Candidate', 'Finance', 'Process', 'Campaign', 'Legislature', 'Governance']
-export const quizDifficulties = ['All', 'Easy', 'Medium', 'Hard']
+export const quizCategories: string[] = ['All', 'Structure', 'Regulation', 'Voter', 'Technology', 'Institution', 'Candidate', 'Finance', 'Process', 'Campaign', 'Legislature', 'Governance']
+export const quizDifficulties: string[] = ['All', 'Easy', 'Medium', 'Hard']

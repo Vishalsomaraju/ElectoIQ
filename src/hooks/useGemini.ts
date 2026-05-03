@@ -1,24 +1,38 @@
-// src/hooks/useGemini.js
+// src/hooks/useGemini.ts
 import { useState, useRef, useCallback } from 'react'
 import { logger } from '../utils/logger'
 import { sendMessageStream } from '../services/gemini'
 import { trackAnalyticsEvent } from '../services/firebase'
 import { sanitizeInput } from '../utils/helpers'
 
+export interface Message {
+  id: string
+  role: 'user' | 'assistant'
+  content: string
+  streaming?: boolean
+}
+
+export interface UseGeminiResult {
+  messages: Message[]
+  streaming: boolean
+  error: string | null
+  sendMessage: (text: string, context?: Record<string, string>) => Promise<void>
+  clearChat: () => void
+}
+
 /**
  * Hook for conversational Gemini AI interaction with streaming support.
- * @returns {{ messages: Array, streaming: boolean, error: string|null, sendMessage: Function, clearChat: Function }}
  */
-export function useGemini() {
-  const [messages, setMessages] = useState([])
-  const [streaming, setStreaming] = useState(false)
-  const [error, setError] = useState(null)
-  const historyRef = useRef([])
-  const lastSendRef = useRef(0)
-  const abortControllerRef = useRef(null)
+export function useGemini(): UseGeminiResult {
+  const [messages, setMessages] = useState<Message[]>([])
+  const [streaming, setStreaming] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
+  const historyRef = useRef<{ role: string; content: string }[]>([])
+  const lastSendRef = useRef<number>(0)
+  const abortControllerRef = useRef<AbortController | null>(null)
   const COOLDOWN_MS = 500
 
-  const sendMessage = useCallback(async (userText, context = {}) => {
+  const sendMessage = useCallback(async (userText: string, context: Record<string, string> = {}) => {
     const trimmed = userText?.trim()
     if (!trimmed || streaming) return
 
@@ -34,12 +48,12 @@ export function useGemini() {
 
     setError(null)
 
-    const userMsg = {
+    const userMsg: Message = {
       id: `user-${Date.now()}`,
       role: 'user',
       content: trimmed,
     }
-    const assistantMsg = {
+    const assistantMsg: Message = {
       id: `assistant-${Date.now() + 1}`,
       role: 'assistant',
       content: '',
@@ -68,7 +82,7 @@ export function useGemini() {
       const fullMessage = contextPrefix + sanitizeInput(trimmed)
 
       let fullText = ''
-      await sendMessageStream(fullMessage, geminiHistory, (_chunk, accumulated) => {
+      await sendMessageStream(fullMessage, geminiHistory, (_chunk: string, accumulated: string) => {
         fullText = accumulated
         setMessages(prev =>
           prev.map(m =>

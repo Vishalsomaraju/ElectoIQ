@@ -1,5 +1,14 @@
-// src/data/glossaryTerms.js
-export const glossaryTerms = [
+// src/data/glossaryTerms.ts
+
+export interface GlossaryTerm {
+  id: number
+  term: string
+  category: string
+  definition: string
+  example?: string
+}
+
+export const glossaryTerms: GlossaryTerm[] = [
   { id: 1, term: 'Election Commission of India (ECI)', category: 'Institution', definition: 'A permanent constitutional body under Article 324, responsible for administering elections for Parliament and state legislatures.' },
   { id: 2, term: 'Chief Election Commissioner (CEC)', category: 'Institution', definition: 'Head of the ECI, appointed by the President of India. Has the status of a Supreme Court judge.' },
   { id: 3, term: 'Model Code of Conduct (MCC)', category: 'Regulation', definition: 'Guidelines issued by ECI to regulate political parties and candidates during elections. Comes into effect upon election announcement.', example: 'Government cannot announce new schemes under MCC.' },
@@ -57,7 +66,7 @@ export const glossaryTerms = [
   { id: 55, term: 'Voter Slip', category: 'Voter', definition: 'A slip issued to voters (by BLO or parties) showing their voter serial number, booth address, and polling time.' },
 ]
 
-export const glossaryCategories = [
+export const glossaryCategories: string[] = [
   'All', 'Institution', 'Regulation', 'Voter', 'Technology', 'Legislature',
   'Structure', 'Candidate', 'Political Party', 'Process', 'Finance',
   'Campaign', 'Governance', 'Statistics',

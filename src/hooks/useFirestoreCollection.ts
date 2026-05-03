@@ -7,19 +7,30 @@ import { collection, query, orderBy, limit, onSnapshot, Timestamp } from 'fireba
 import { db } from '../services/firebase'
 import { logger } from '../utils/logger'
 
+export interface UseFirestoreCollectionOptions {
+  limitCount?: number
+  orderByField?: string | null
+}
+
+export interface UseFirestoreCollectionResult<T> {
+  data: (T & { id: string })[]
+  loading: boolean
+  error: string | null
+  isConnected: boolean
+}
+
 /**
  * Real-time Firestore collection hook using onSnapshot.
  * Automatically unsubscribes on unmount.
  * @param {string} collectionName - Collection to subscribe to
  * @param {Object} [options] - { limitCount?: number, orderByField?: string }
- * @returns {{ data: Array, loading: boolean, error: string|null, isConnected: boolean }}
  */
-export function useFirestoreCollection(collectionName, options = {}) {
+export function useFirestoreCollection<T = Record<string, unknown>>(collectionName: string, options: UseFirestoreCollectionOptions = {}): UseFirestoreCollectionResult<T> {
   const { limitCount = 50, orderByField = null } = options
-  const [data, setData] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const [isConnected, setIsConnected] = useState(false)
+  const [data, setData] = useState<(T & { id: string })[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string | null>(null)
+  const [isConnected, setIsConnected] = useState<boolean>(false)
 
   useEffect(() => {
     if (!db) {
@@ -27,7 +38,7 @@ export function useFirestoreCollection(collectionName, options = {}) {
       setError('Firebase not configured')
       return
     }
-    const constraints = []
+    const constraints: any[] = []
     if (orderByField) constraints.push(orderBy(orderByField))
     constraints.push(limit(limitCount))
     const q = query(collection(db, collectionName), ...constraints)
@@ -36,11 +47,11 @@ export function useFirestoreCollection(collectionName, options = {}) {
       (snapshot) => {
         const docs = snapshot.docs.map((doc) => {
           const raw = doc.data()
-          const out = { id: doc.id }
+          const out: any = { id: doc.id }
           for (const [k, v] of Object.entries(raw)) {
             out[k] = v instanceof Timestamp ? v.toDate() : v
           }
-          return out
+          return out as (T & { id: string })
         })
 
         setData(docs)

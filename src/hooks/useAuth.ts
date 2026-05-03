@@ -1,4 +1,4 @@
-// src/hooks/useAuth.js
+// src/hooks/useAuth.ts
 import { useState, useEffect } from 'react'
 import { logger } from '../utils/logger'
 import {
@@ -8,6 +8,7 @@ import {
   GoogleAuthProvider,
   signInAnonymously,
   signOut,
+  User
 } from 'firebase/auth'
 import { auth, trackAnalyticsEvent } from '../services/firebase'
 
@@ -16,24 +17,31 @@ googleProvider.addScope('email')
 googleProvider.addScope('profile')
 googleProvider.setCustomParameters({ prompt: 'select_account' })
 
+export interface UseAuthResult {
+  user: User | null
+  loading: boolean
+  error: string | null
+  signInWithGoogle: () => Promise<void>
+  signInAsGuest: () => Promise<User | undefined>
+  logout: () => Promise<void>
+}
+
 /**
  * Custom hook to manage Firebase authentication state.
- * @returns {Object} Authentication state and methods { user, loading, error, signInWithGoogle, signInAsGuest, logout }
  */
-export function useAuth() {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+export function useAuth(): UseAuthResult {
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!auth) {
       setLoading(false)
       return
     }
-    setLoading(true)
 
     // Handle redirect result (Google Sign-In completes via redirect)
-    getRedirectResult(auth).catch(err => {
+    getRedirectResult(auth).catch((err: Error) => {
       logger.warn('[useAuth] Redirect result error:', err.message)
     })
 
@@ -44,42 +52,42 @@ export function useAuth() {
     return unsubscribe
   }, [])
 
-  const signInWithGoogle = async () => {
+  const signInWithGoogle = async (): Promise<void> => {
     if (!auth) { setError('Firebase not configured'); return }
     setError(null)
     try {
       trackAnalyticsEvent('auth_google_sign_in_started')
       await signInWithRedirect(auth, googleProvider)
-    } catch (err) {
+    } catch (err: unknown) {
       logger.warn('[signInWithGoogle] error:', err)
-      setError(err.message)
+      setError(err instanceof Error ? err.message : String(err))
       throw err
     }
   }
 
-  const signInAsGuest = async () => {
-    if (!auth) { setError('Firebase not configured'); return }
+  const signInAsGuest = async (): Promise<User | undefined> => {
+    if (!auth) { setError('Firebase not configured'); return undefined }
     setError(null)
     try {
       const result = await signInAnonymously(auth)
       trackAnalyticsEvent('auth_guest_sign_in', { provider: 'anonymous' })
       return result.user
-    } catch (err) {
+    } catch (err: unknown) {
       logger.warn('[signInAsGuest] error:', err)
-      setError(err.message)
+      setError(err instanceof Error ? err.message : String(err))
       throw err
     }
   }
 
-  const logout = async () => {
+  const logout = async (): Promise<void> => {
     if (!auth) return
     setError(null)
     try {
       await signOut(auth)
       trackAnalyticsEvent('auth_sign_out')
-    } catch (err) {
+    } catch (err: unknown) {
       logger.warn('[logout] error:', err)
-      setError(err.message)
+      setError(err instanceof Error ? err.message : String(err))
       throw err
     }
   }

@@ -4,24 +4,24 @@
 // Docs: https://firebase.google.com/docs
 // src/services/firebase.js
 
-import { initializeApp } from 'firebase/app'
+import { initializeApp, FirebaseApp } from 'firebase/app'
 import { logger } from '../utils/logger'
 import { sanitizeInput } from '../utils/helpers'
-import { getAuth } from 'firebase/auth'
-import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from 'firebase/firestore'
+import { getAuth, Auth } from 'firebase/auth'
+import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager, Firestore } from 'firebase/firestore'
 import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check'
-import { getPerformance } from 'firebase/performance'
-import { getAnalytics, logEvent } from 'firebase/analytics'
+import { getPerformance, FirebasePerformance } from 'firebase/performance'
+import { getAnalytics, logEvent, Analytics } from 'firebase/analytics'
 
 const FIREBASE_CONFIGURED =
   import.meta.env.VITE_FIREBASE_API_KEY &&
   import.meta.env.VITE_FIREBASE_API_KEY !== 'your_firebase_api_key'
 
-let app = null
-let auth = null
-let db = null
-let perf = null
-let analytics = null
+let app = null as unknown as FirebaseApp
+let auth = null as unknown as Auth
+let db = null as unknown as Firestore
+let perf = null as unknown as FirebasePerformance
+let analytics = null as unknown as Analytics
 
 if (FIREBASE_CONFIGURED) {
   try {
@@ -45,18 +45,18 @@ if (FIREBASE_CONFIGURED) {
           isTokenAutoRefreshEnabled: true
         })
       } catch (err) {
-        logger.warn('[ElectoIQ] App Check init failed:', err.message)
+        logger.warn('[ElectoIQ] App Check init failed:', err instanceof Error ? err.message : String(err))
       }
     }
 
     try { perf = getPerformance(app) } catch (_e) {
-      logger.warn('[ElectoIQ] Performance unavailable:', _e.message)
+      logger.warn('[ElectoIQ] Performance unavailable:', _e instanceof Error ? _e.message : _e)
     }
     try {
       analytics = getAnalytics(app)
       logEvent(analytics, 'app_open', { platform: 'web' })
     } catch (_e) {
-      logger.warn('[ElectoIQ] Analytics unavailable:', _e.message)
+      logger.warn('[ElectoIQ] Analytics unavailable:', _e instanceof Error ? _e.message : _e)
     }
   } catch (err) {
     const msg = err instanceof Error
@@ -66,9 +66,9 @@ if (FIREBASE_CONFIGURED) {
   }
 }
 
-function sanitizeAnalyticsParams(params = {}) {
+function sanitizeAnalyticsParams(params: Record<string, unknown> = {}) {
   return Object.fromEntries(
-    Object.entries(params).flatMap(([key, value]) => {
+    Object.entries(params).flatMap(([key, value]): Array<[string, string | number | boolean]> => {
       if (!key || value == null) return []
       const safeKey = String(key).replace(/[^a-zA-Z0-9_]/g, '').slice(0, 40)
       if (!safeKey) return []
@@ -84,7 +84,7 @@ function sanitizeAnalyticsParams(params = {}) {
   )
 }
 
-export function trackAnalyticsEvent(eventName, params = {}) {
+export function trackAnalyticsEvent(eventName: string, params: Record<string, unknown> = {}) {
   if (!analytics) return false
   const safeEventName = String(eventName).replace(/[^a-zA-Z0-9_]/g, '_').slice(0, 40)
   if (!safeEventName) return false
@@ -103,12 +103,12 @@ export function trackAnalyticsEvent(eventName, params = {}) {
  * @param {string} eventName - Analytics event name
  * @param {Object} [params] - Event parameters
  */
-export function logAnalyticsEvent(eventName, params = {}) {
+export function logAnalyticsEvent(eventName: string, params: Record<string, unknown> = {}) {
   if (!analytics) return
   try {
     logEvent(analytics, eventName, params)
   } catch (err) {
-    logger.warn('[Analytics] logEvent failed:', err.message)
+    logger.warn('[Analytics] logEvent failed:', err instanceof Error ? err.message : err)
   }
 }
 

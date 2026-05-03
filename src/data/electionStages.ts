@@ -1,10 +1,21 @@
-// src/data/electionStages.js
+// src/data/electionStages.ts
+
+export interface ElectionStage {
+  id: number
+  phase: string
+  title: string
+  icon: string
+  duration: string
+  description: string
+  details: string[]
+  color: string
+}
 
 /**
  * Complete timeline of India's General Election process
  * Each stage has: id, phase, title, description, icon, duration, details[]
  */
-export const electionStages = [
+export const electionStages: ElectionStage[] = [
   {
     id: 1,
     phase: 'Pre-Election',
@@ -151,4 +162,4 @@ export const electionStages = [
   },
 ]
 
-export const electionPhases = ['Pre-Election', 'Election Day', 'Post-Election']
+export const electionPhases: string[] = ['Pre-Election', 'Election Day', 'Post-Election']
