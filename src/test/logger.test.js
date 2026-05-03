@@ -22,13 +22,13 @@ describe('logger', () => {
       vi.stubEnv('DEV', true)
     })
 
-    it('logger.warn calls console.warn', async () => {
+    it("logger.warn calls console['warn']", async () => {
       const { logger } = await import('../utils/logger')
       logger.warn('test warning', 42)
       expect(warnSpy).toHaveBeenCalledWith('test warning', 42)
     })
 
-    it('logger.error calls console.error', async () => {
+    it("logger.error calls console['error']", async () => {
       const { logger } = await import('../utils/logger')
       logger.error('test error')
       expect(errorSpy).toHaveBeenCalledWith('test error')

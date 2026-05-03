@@ -15,7 +15,7 @@ import { getAnalytics, logEvent, Analytics } from 'firebase/analytics'
 
 const FIREBASE_CONFIGURED =
   import.meta.env.VITE_FIREBASE_API_KEY &&
-  import.meta.env.VITE_FIREBASE_API_KEY !== 'your_firebase_api_key'
+  import.meta.env.VITE_FIREBASE_API_KEY !== 'UNCONFIGURED_API_KEY'
 
 let app = null as unknown as FirebaseApp
 let auth = null as unknown as Auth
@@ -38,7 +38,7 @@ if (FIREBASE_CONFIGURED) {
       localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() })
     })
 
-    if (import.meta.env.VITE_RECAPTCHA_SITE_KEY && import.meta.env.VITE_RECAPTCHA_SITE_KEY !== 'your_recaptcha_key') {
+    if (import.meta.env.VITE_RECAPTCHA_SITE_KEY && import.meta.env.VITE_RECAPTCHA_SITE_KEY !== 'UNCONFIGURED_RECAPTCHA_KEY') {
       try {
         initializeAppCheck(app, {
           provider: new ReCaptchaV3Provider(import.meta.env.VITE_RECAPTCHA_SITE_KEY),

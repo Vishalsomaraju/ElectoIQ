@@ -8,7 +8,7 @@ import { sanitizeInput } from '../utils/helpers'
 
 const API_KEY = import.meta.env.VITE_GEMINI_KEY
 
-if (!API_KEY || API_KEY === 'your_key_here') {
+if (!API_KEY || API_KEY === 'UNCONFIGURED_KEY') {
   logger.warn(
     '%c[ElectoIQ] ⚠️ VITE_GEMINI_KEY is not set or is a placeholder. ' +
     'AI features will not work. Add your key to .env file.',

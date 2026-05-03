@@ -8,6 +8,7 @@ import { Skeleton } from "../components/ui/Skeleton";
 import { trackAnalyticsEvent, logAnalyticsEvent } from "../services/firebase";
 import { generateQuiz } from "../services/gemini";
 import { shuffle, calcScore, getGrade } from "../utils/helpers";
+import { logger } from "../utils/logger";
 
 import { QuizQuestion } from "../components/quiz/QuizQuestion";
 import { QuizResults } from "../components/quiz/QuizResults";
@@ -30,7 +31,7 @@ export default function Quiz() {
       const q = await generateQuiz();
       setQuestions(q);
     } catch (err) {
-      console.warn("[Quiz] Generation failed, using fallback:", err);
+      logger.warn("[Quiz] Generation failed, using fallback:", err);
       const { quizQuestions } = await import("../data/quizQuestions");
       setQuestions(shuffle(quizQuestions).slice(0, 10));
       setGenError("Using local questions — AI generation unavailable");

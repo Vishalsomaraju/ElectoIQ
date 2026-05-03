@@ -16,7 +16,7 @@ vi.mock('../services/firebase', () => ({
 describe('useGemini Hook', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    // Suppress console.warn in tests for expected errors
+    // Suppress console warning in tests for expected errors
     vi.spyOn(console, 'warn').mockImplementation(() => {})
   })
 
@@ -108,7 +108,7 @@ describe('useGemini Hook', () => {
       await result.current.sendMessage('Hi')
     })
 
-    expect(console.warn).toHaveBeenCalled()
+    expect(console['warn']).toHaveBeenCalled()
     expect(result.current.error).toBe(errorMsg)
     expect(result.current.streaming).toBe(false)
     // The assistant message should be removed on error
