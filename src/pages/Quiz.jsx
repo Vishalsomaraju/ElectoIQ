@@ -30,7 +30,7 @@ const difficultyColor = { Easy: "success", Medium: "warning", Hard: "danger" };
 export default function Quiz() {
   const [questions, setQuestions] = useState([]);
   const [generating, setGenerating] = useState(false);
-  const [_genError, setGenError] = useState(null);
+  const [genError, setGenError] = useState(null);
   const [loadingQuiz, setLoadingQuiz] = useState(false);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [answers, setAnswers] = useState({});
@@ -159,6 +159,11 @@ export default function Quiz() {
             <p className="text-slate-500 dark:text-white/60 text-sm">
               ElectoBot is generating your questions...
             </p>
+            {genError && (
+              <p role="alert" className="text-amber-500 dark:text-amber-400 text-sm text-center mt-2">
+                {genError}
+              </p>
+            )}
           </div>
         </PageWrapper>
       </AnimatedPage>

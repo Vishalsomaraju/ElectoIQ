@@ -108,7 +108,7 @@ export function logAnalyticsEvent(eventName, params = {}) {
   try {
     logEvent(analytics, eventName, params)
   } catch (err) {
-    console.warn('[Analytics] logEvent failed:', err.message)
+    logger.warn('[Analytics] logEvent failed:', err.message)
   }
 }
 
