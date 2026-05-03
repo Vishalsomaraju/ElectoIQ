@@ -59,6 +59,7 @@ export default defineConfig({
     globals: true,
     setupFiles: ['./src/test/setup.js'],
     css: false,
+    pool: 'forks',
     coverage: {
       provider: 'v8',
       reporter: ['text', 'lcov', 'html'],

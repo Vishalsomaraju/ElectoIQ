@@ -17,7 +17,7 @@ export default function VoterJourney() {
   const [direction, setDirection] = useState(1); // 1 = forward, -1 = backward
   const previousStepRef = useRef(currentStep);
   const wizardRef = useRef(null);
-  const { currentUser } = useAuthContext();
+  const { user: currentUser } = useAuthContext();
   const { setDocument } = useFirestore("users");
 
   const handleNext = useCallback(() => {
@@ -105,10 +105,11 @@ export default function VoterJourney() {
             </motion.div>
           )}
 
-          {/* Main Wizard Card */}
           <div
             ref={wizardRef}
             tabIndex={-1}
+            role="region"
+            aria-label="Wizard Steps Container"
             onKeyDown={handleKeyDown}
             className="bg-white dark:bg-white/5 backdrop-blur-md rounded-3xl border border-slate-200 dark:border-white/10 overflow-hidden shadow-2xl relative min-h-[400px] flex flex-col focus:outline-none"
           >

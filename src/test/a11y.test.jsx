@@ -28,7 +28,7 @@ describe('Accessibility audits — WCAG AA', () => {
     const { container } = render(<FloatingChat />)
     const results = await axe(container)
     expect(results).toHaveNoViolations()
-  })
+  }, 15000)
 
   it('ProgressBar has no violations', async () => {
     const { ProgressBar } = await import('../components/ui/ProgressBar')

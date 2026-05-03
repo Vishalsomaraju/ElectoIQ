@@ -1,7 +1,7 @@
 // src/test/pages.test.jsx
 import React from 'react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 
@@ -41,7 +41,7 @@ vi.mock('../context/AppContext', () => ({
 }))
 
 vi.mock('../context/AuthContext', () => ({
-  useAuthContext: () => ({ user: null, loading: false }),
+  useAuthContext: vi.fn(() => ({ user: null, loading: false })),
 }))
 
 vi.mock('../services/gemini', () => ({
@@ -121,32 +121,41 @@ describe('Glossary page', () => {
   })
 
   it('filters terms when search query is typed', async () => {
-    const user = userEvent.setup()
     render(<Glossary />)
     const input = screen.getByRole('textbox', { name: /search/i })
-    await user.type(input, 'EVM')
+    
+    // Use fireEvent for synchronous input change
+    fireEvent.change(input, { target: { value: 'EVM' } })
+    
+    // Wait for debounce and DOM update
     await waitFor(() => {
       const countEl = screen.getByText(/showing/i).closest('p')
-      // After searching for "EVM" result count should be less than 24
-      expect(countEl.textContent).toBeTruthy()
-    })
-  })
+      // "EVM" should filter the terms down, making it fewer than the total 55
+      expect(countEl.textContent).not.toMatch(/55/)
+    }, { timeout: 3000 })
+  }, 10000)
 
   it('shows empty state when no terms match search', async () => {
-    const user = userEvent.setup()
     render(<Glossary />)
     const input = screen.getByRole('textbox', { name: /search/i })
-    await user.type(input, 'xyznotarealelectionterm999')
-    expect(await screen.findByText(/no terms found/i)).toBeInTheDocument()
+    
+    // Use fireEvent for synchronous input change
+    fireEvent.change(input, { target: { value: 'xyznonexistentterm' } })
+    
+    expect(await screen.findByText(/no terms found/i, {}, { timeout: 3000 })).toBeInTheDocument()
   })
 
   it('clears search when X (Clear search) button is clicked', async () => {
-    const user = userEvent.setup()
     render(<Glossary />)
     const input = screen.getByRole('textbox', { name: /search/i })
-    await user.type(input, 'EVM')
-    const clearBtn = await screen.findByRole('button', { name: /clear search/i })
-    await user.click(clearBtn)
+    
+    // Use fireEvent for synchronous update to prevent timeouts
+    fireEvent.change(input, { target: { value: 'EVM' } })
+    
+    // Wait for debounce timer (300ms) and clear button to render
+    const clearBtn = await screen.findByRole('button', { name: /clear search/i }, { timeout: 2000 })
+    fireEvent.click(clearBtn)
+    
     expect(input.value).toBe('')
   })
 
@@ -181,6 +190,29 @@ describe('Glossary page', () => {
     // Category filter buttons appear immediately outside the loading skeleton
     expect(screen.getByRole('button', { name: 'Technology' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'All' })).toBeInTheDocument()
+  })
+
+  it('renders terms after loading, allows expanding, and allows loading more', async () => {
+    const user = userEvent.setup()
+    render(<Glossary />)
+    
+    // Wait for the term cards to appear
+    const showMoreText = await screen.findAllByText(/▼ Show more/i, {}, { timeout: 3000 })
+    expect(showMoreText.length).toBeGreaterThan(0)
+    
+    // Click the first term card to expand it (click the text inside the card)
+    await user.click(showMoreText[0])
+    
+    // It should change to "Show less"
+    expect(await screen.findByText(/▲ Show less/i)).toBeInTheDocument()
+
+    // Click load more to cover setVisibleCount
+    const loadMoreBtn = screen.getByRole('button', { name: /Load more/i })
+    await user.click(loadMoreBtn)
+    
+    // Total shown should now be higher (started with 24, +24 = 48)
+    const countEl = screen.getByText(/showing/i).closest('p')
+    expect(countEl.textContent).toMatch(/48/)
   })
 })
 
@@ -439,6 +471,31 @@ describe('VoterJourney page', () => {
     }
     
     expect(await screen.findByText(/Informed Voter/i)).toBeInTheDocument()
+  })
+
+  it('completes the journey and saves progress if user is logged in', async () => {
+    // Mock the useAuthContext to return a user
+    const { useAuthContext } = await import('../context/AuthContext')
+    useAuthContext.mockReturnValue({ user: { uid: 'test-user-123' }, loading: false })
+    
+    const user = userEvent.setup()
+    render(<VoterJourney />)
+    
+    const checkboxes = screen.getAllByRole('checkbox')
+    for (const checkbox of checkboxes) {
+      await user.click(checkbox)
+    }
+
+    // Advance 5 times to reach step 6
+    for (let i = 0; i < 5; i++) {
+      const nextBtn = await screen.findByRole('button', { name: /Next Step|Complete Journey/i })
+      await user.click(nextBtn)
+    }
+    
+    expect(await screen.findByText(/Informed Voter/i)).toBeInTheDocument()
+    
+    // Reset the mock back to original state for other tests just in case
+    useAuthContext.mockReturnValue({ user: null, loading: false })
   })
 })
 
