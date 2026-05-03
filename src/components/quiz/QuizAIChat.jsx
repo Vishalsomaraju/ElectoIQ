@@ -46,7 +46,7 @@ export function QuizAIChat({ current }) {
               </div>
               <button
                 onClick={() => setChatOpen(false)}
-                aria-label="Close AI assistant"
+                aria-label="Close quiz AI assistant panel"
                 className="text-slate-500 dark:text-white/50 hover:text-slate-900 dark:hover:text-white"
               >
                 <X size={18} />

@@ -6,6 +6,7 @@ import { trackAnalyticsEvent } from '../../services/firebase'
 export function FloatingChat() {
   const { state, dispatch } = useAppContext()
 
+  if (state.currentPage === 'quiz') return null
   if (state.chatOpen) return null
 
   return (

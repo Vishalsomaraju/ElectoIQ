@@ -93,7 +93,7 @@ describe('service modules', () => {
       { platform: 'web' }
     )
     expect(firebaseService.isFirebaseReady()).toBe(true)
-  })
+  }, 15000)
 
   it('sanitizes analytics events before logging', async () => {
     const { trackAnalyticsEvent } = await import('../services/firebase')

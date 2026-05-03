@@ -17,6 +17,7 @@ export function Card({
   hover = false,
   glow = false,
   onClick,
+  ...props
 }) {
   const isInteractive = Boolean(onClick);
 
@@ -34,6 +35,7 @@ export function Card({
       onKeyDown={handleKeyDown}
       role={isInteractive ? "button" : undefined}
       tabIndex={isInteractive ? 0 : undefined}
+      {...props}
       className={cn(
         "glass rounded-2xl p-6 transition-all duration-300",
         hover && "hover:border-blue-500/30 hover:scale-[1.01]",

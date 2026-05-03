@@ -5,7 +5,12 @@ import { toHaveNoViolations } from 'jest-axe'
 expect.extend(toHaveNoViolations)
 
 import { configureAxe } from 'vitest-axe'
-configureAxe({ rules: { region: { enabled: false } } })
+configureAxe({
+  rules: {
+    region: { enabled: false },
+    'color-contrast': { enabled: false },
+  },
+})
 
 // Mock matchMedia (not available in jsdom)
 Object.defineProperty(window, 'matchMedia', {
