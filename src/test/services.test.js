@@ -17,6 +17,14 @@ const mockGetGenerativeModel = vi.fn(() => ({
   generateContent: mockGenerateContent,
 }))
 
+const { mockLogger } = vi.hoisted(() => ({
+  mockLogger: { warn: vi.fn(), error: vi.fn(), info: vi.fn() }
+}))
+
+vi.mock('../utils/logger', () => ({
+  logger: mockLogger,
+}))
+
 vi.mock('firebase/app', () => ({
   initializeApp: mockInitializeApp,
 }))
@@ -106,6 +114,74 @@ describe('service modules', () => {
         nested: '',
       }
     )
+  })
+
+  it('trackAnalyticsEvent catches and logs errors', async () => {
+    const { trackAnalyticsEvent } = await import('../services/firebase')
+    
+    mockLogEvent.mockImplementationOnce(() => {
+      throw new Error('Analytics failed')
+    })
+
+    const result = trackAnalyticsEvent('test_event')
+    
+    expect(result).toBe(false)
+    expect(mockLogger.warn).toHaveBeenCalledWith(
+      '[ElectoIQ] Analytics event failed:',
+      'Analytics failed'
+    )
+  })
+
+  it('logAnalyticsEvent catches and logs errors', async () => {
+    const { logAnalyticsEvent } = await import('../services/firebase')
+    
+    mockLogEvent.mockImplementationOnce(() => {
+      throw new Error('logEvent failed')
+    })
+
+    logAnalyticsEvent('test_event')
+    expect(mockLogger.warn).toHaveBeenCalledWith(
+      '[Analytics] logEvent failed:',
+      'logEvent failed'
+    )
+  })
+
+  it('handles analytics init error', async () => {
+    vi.doMock('firebase/analytics', () => ({
+      getAnalytics: () => { throw new Error('Failed to init analytics') },
+      isSupported: vi.fn().mockResolvedValue(true),
+      logEvent: mockLogEvent,
+    }))
+    vi.resetModules()
+    await import('../services/firebase')
+    expect(mockLogger.warn).toHaveBeenCalledWith(
+      '[ElectoIQ] Analytics unavailable:',
+      'Failed to init analytics'
+    )
+  })
+
+  it('handles overall firebase init error', async () => {
+    vi.doMock('firebase/app', () => ({
+      initializeApp: () => { throw new Error('Failed to init firebase with key=SECRET') },
+      getApps: vi.fn().mockReturnValue([])
+    }))
+    vi.resetModules()
+    await import('../services/firebase')
+    expect(mockLogger.warn).toHaveBeenCalledWith(
+      '[ElectoIQ] Firebase init failed:',
+      'Failed to init firebase with key=REDACTED'
+    )
+  })
+
+  it('exports valid getter functions', async () => {
+    const { getFirebaseAuth, getFirebaseDb, getFirebasePerformance } = await import('../services/firebase')
+    expect(typeof getFirebaseAuth).toBe('function')
+    expect(typeof getFirebaseDb).toBe('function')
+    expect(typeof getFirebasePerformance).toBe('function')
+    
+    expect(getFirebaseAuth()).toBeDefined()
+    expect(getFirebaseDb()).toBeDefined()
+    // perf might be undefined if unavailable
   })
 
   it('configures the Gemini model with the documented model name', async () => {

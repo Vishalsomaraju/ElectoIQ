@@ -1,0 +1,243 @@
+
+> electoiq@0.0.0 test
+> vitest run --run --coverage
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.5 [39m[90mE:/ElectoIQ[39m
+      [2mCoverage enabled with [22m[33mv8[39m
+
+ [32m✓[39m src/test/utils.test.js [2m([22m[2m32 tests[22m[2m)[22m[32m 158[2mms[22m[39m
+[90mstderr[2m | src/test/useFirestore.test.jsx[2m > [22m[2museFirestore[2m > [22m[2mgetDocument[2m > [22m[2mhandles network errors gracefully and sets error state
+[22m[39m[getDocument] Error in users: Error: Network error
+    at E:/ElectoIQ/src/test/useFirestore.test.jsx:91:40
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:302:11
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:1903:26
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel [90m(file:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2323:10[90m)[39m
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2272:10[90m)[39m
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2955:64
+
+[90mstderr[2m | src/test/useFirestore.test.jsx[2m > [22m[2museFirestore[2m > [22m[2mgetDocument[2m > [22m[2mrequires authentication before reading a document
+[22m[39m[getDocument] Error in users: Error: [getDocument] requires authentication
+    at Object.getDocument (E:/ElectoIQ/src/hooks/useFirestore.ts:35:24)
+    at E:/ElectoIQ/src/test/useFirestore.test.jsx:109:37
+    at [90mE:\ElectoIQ\[39mnode_modules\[4m@testing-library\react[24m\dist\act-compat.js:47:24
+    at process.env.NODE_ENV.exports.act [90m(E:\ElectoIQ\[39mnode_modules\[4mreact[24m\cjs\react.development.js:814:22[90m)[39m
+    at Proxy.<anonymous> [90m(E:\ElectoIQ\[39mnode_modules\[4m@testing-library\react[24m\dist\act-compat.js:46:25[90m)[39m
+    at E:/ElectoIQ/src/test/useFirestore.test.jsx:108:13
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:302:11
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:1903:26
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+
+[90mstderr[2m | src/test/useFirestore.test.jsx[2m > [22m[2museFirestore[2m > [22m[2msetDocument[2m > [22m[2mreturns false and sets error state on failure
+[22m[39m[setDocument] Error in quizResults: Error: Permission denied
+    at E:/ElectoIQ/src/test/useFirestore.test.jsx:135:40
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:302:11
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:1903:26
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel [90m(file:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2323:10[90m)[39m
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2272:10[90m)[39m
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2955:64
+
+[90mstderr[2m | src/test/useFirestore.test.jsx[2m > [22m[2museFirestore[2m > [22m[2maddDocument[2m > [22m[2mreturns null on error
+[22m[39m[addDocument] Error in results: Error: Write failed
+    at E:/ElectoIQ/src/test/useFirestore.test.jsx:164:40
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:302:11
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:1903:26
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel [90m(file:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2323:10[90m)[39m
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2272:10[90m)[39m
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2955:64
+
+[90mstderr[2m | src/test/useFirestore.test.jsx[2m > [22m[2museFirestore[2m > [22m[2mupdateDocument[2m > [22m[2mreturns false and sets error on failure
+[22m[39m[updateDocument] Error in users: Error: Update failed
+    at E:/ElectoIQ/src/test/useFirestore.test.jsx:192:43
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:302:11
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:1903:26
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel [90m(file:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2323:10[90m)[39m
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2272:10[90m)[39m
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2955:64
+
+[90mstderr[2m | src/test/useFirestore.test.jsx[2m > [22m[2museFirestore[2m > [22m[2mdeleteDocument[2m > [22m[2mreturns false and sets error on failure
+[22m[39m[deleteDocument] Error in users: Error: Delete failed
+    at E:/ElectoIQ/src/test/useFirestore.test.jsx:220:43
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:302:11
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:1903:26
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel [90m(file:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2323:10[90m)[39m
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2272:10[90m)[39m
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2955:64
+
+[90mstderr[2m | src/test/useFirestore.test.jsx[2m > [22m[2museFirestore[2m > [22m[2mgetCollection[2m > [22m[2mreturns empty array and sets error on network failure
+[22m[39m[getCollection] Error in data: Error: Connection failed
+    at E:/ElectoIQ/src/test/useFirestore.test.jsx:267:41
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:302:11
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:1903:26
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel [90m(file:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2323:10[90m)[39m
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2272:10[90m)[39m
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2955:64
+
+ [32m✓[39m src/test/useFirestore.test.jsx [2m([22m[2m17 tests[22m[2m)[22m[32m 247[2mms[22m[39m
+ [32m✓[39m src/test/RouteStateSync.test.jsx [2m([22m[2m1 test[22m[2m)[22m[32m 166[2mms[22m[39m
+ [32m✓[39m src/test/logger.test.js [2m([22m[2m6 tests[22m[2m)[22m[32m 43[2mms[22m[39m
+[90mstdout[2m | src/test/components.test.jsx
+[22m[39m[2026-05-03T14:22:46.616Z]  Performance: IndexedDB is not supported by current browser
+[2026-05-03T14:22:46.620Z]  Performance: Firebase Performance cannot start if the browser does not support "Fetch" and "Promise", or cookies are disabled.
+
+[90mstderr[2m | src/test/components.test.jsx
+[22m[39m[2026-05-03T14:22:46.625Z]  @firebase/analytics: Analytics: IndexedDB unavailable or restricted in this environment. Wrap initialization of analytics in analytics.isSupported() to prevent initialization in unsupported environments. Details: IndexedDB is not available in this environment. (analytics/indexeddb-unavailable).
+
+ [32m✓[39m src/test/services.test.js [2m([22m[2m3 tests[22m[2m)[22m[32m 154[2mms[22m[39m
+[90mstderr[2m | src/test/useFirestoreCollection.test.jsx[2m > [22m[2museFirestoreCollection[2m > [22m[2msurfaces subscription errors and marks the connection offline
+[22m[39m[useFirestoreCollection] quizResults: Error: permission-denied
+    at E:/ElectoIQ/src/test/useFirestoreCollection.test.jsx:73:15
+    at Mock [90m(file:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/spy[24m/dist/index.js:332:34[90m)[39m
+    at onSnapshot (E:/ElectoIQ/src/test/useFirestoreCollection.test.jsx:15:28)
+    at E:/ElectoIQ/src/hooks/useFirestoreCollection.ts:46:25
+    at Object.react_stack_bottom_frame [90m(E:\ElectoIQ\[39mnode_modules\[4mreact-dom[24m\cjs\react-dom-client.development.js:25989:20[90m)[39m
+    at runWithFiberInDEV [90m(E:\ElectoIQ\[39mnode_modules\[4mreact-dom[24m\cjs\react-dom-client.development.js:874:13[90m)[39m
+    at commitHookEffectListMount [90m(E:\ElectoIQ\[39mnode_modules\[4mreact-dom[24m\cjs\react-dom-client.development.js:13249:29[90m)[39m
+    at commitHookPassiveMountEffects [90m(E:\ElectoIQ\[39mnode_modules\[4mreact-dom[24m\cjs\react-dom-client.development.js:13336:11[90m)[39m
+    at commitPassiveMountOnFiber [90m(E:\ElectoIQ\[39mnode_modules\[4mreact-dom[24m\cjs\react-dom-client.development.js:15484:13[90m)[39m
+    at recursivelyTraversePassiveMountEffects [90m(E:\ElectoIQ\[39mnode_modules\[4mreact-dom[24m\cjs\react-dom-client.development.js:15439:11[90m)[39m
+
+ [32m✓[39m src/test/context.test.jsx [2m([22m[2m22 tests[22m[2m)[22m[32m 261[2mms[22m[39m
+ [32m✓[39m src/test/useFirestoreCollection.test.jsx [2m([22m[2m2 tests[22m[2m)[22m[32m 123[2mms[22m[39m
+ [32m✓[39m src/test/useGemini.test.jsx [2m([22m[2m6 tests[22m[2m)[22m[32m 121[2mms[22m[39m
+[90mstderr[2m | src/test/useAuth.test.jsx[2m > [22m[2museAuth hook[2m > [22m[2mhandles Google sign in error
+[22m[39m[signInWithGoogle] error: Error: Redirect failed
+    at E:/ElectoIQ/src/test/useAuth.test.jsx:69:19
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:302:11
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:1903:26
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel [90m(file:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2323:10[90m)[39m
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2272:10[90m)[39m
+    at [90mfile:///E:/ElectoIQ/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-artifact.js:2955:64
+
+ [32m✓[39m src/test/a11y.test.jsx [2m([22m[2m6 tests[22m[2m)[22m[33m 1512[2mms[22m[39m
+     [33m[2m✓[22m[39m FloatingChat button has no violations [33m 1068[2mms[22m[39m
+ [32m✓[39m src/test/useAuth.test.jsx [2m([22m[2m5 tests[22m[2m)[22m[32m 119[2mms[22m[39m
+ [32m✓[39m src/test/components.test.jsx [2m([22m[2m39 tests[22m[2m)[22m[33m 741[2mms[22m[39m
+     [33m[2m✓[22m[39m renders button [33m 330[2mms[22m[39m
+ [32m✓[39m src/components/layout/Navbar.test.jsx [2m([22m[2m6 tests[22m[2m)[22m[33m 681[2mms[22m[39m
+ [32m✓[39m src/test/pages.test.jsx [2m([22m[2m24 tests[22m[2m)[22m[33m 3623[2mms[22m[39m
+     [33m[2m✓[22m[39m renders the "Showing N of M terms" count text [33m 476[2mms[22m[39m
+     [33m[2m✓[22m[39m filters terms when search query is typed [33m 395[2mms[22m[39m
+     [33m[2m✓[22m[39m shows empty state when no terms match search [33m 842[2mms[22m[39m
+     [33m[2m✓[22m[39m progresses through steps when Next is clicked [33m 494[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m13 passed[39m[22m[90m (13)[39m
+[2m      Tests [22m [1m[32m169 passed[39m[22m[90m (169)[39m
+[2m   Start at [22m 19:52:35
+[2m   Duration [22m 15.27s[2m (transform 2.05s, setup 39.85s, import 9.18s, tests 7.95s, environment 79.67s)[22m
+
+[34m % [39m[2mCoverage report from [22m[33mv8[39m
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   73.01 |    61.15 |   71.49 |   76.78 |                   
+ ...ents/dashboard |   91.66 |    55.55 |    87.5 |   91.66 |                   
+  ...dActivity.jsx |      50 |     37.5 |      50 |      50 | 18                
+  ...gProgress.jsx |     100 |       70 |     100 |     100 | 63-77             
+  ...uickLinks.jsx |     100 |      100 |     100 |     100 |                   
+  ...oardStats.jsx |     100 |      100 |     100 |     100 |                   
+  ...rdWelcome.jsx |     100 |      100 |     100 |     100 |                   
+ ...nents/glossary |   71.42 |    26.66 |      60 |   71.42 |                   
+  ...arySearch.jsx |     100 |      100 |     100 |     100 |                   
+  ...yTermCard.jsx |      50 |        0 |       0 |      50 | 29-40             
+ ...onents/journey |     100 |      100 |     100 |     100 |                   
+  ...epContent.jsx |     100 |      100 |     100 |     100 |                   
+ components/layout |   86.44 |       70 |   80.95 |   90.56 |                   
+  AuthButton.jsx   |   85.71 |    70.83 |     100 |   85.71 | 16,23             
+  ChakraLogo.jsx   |     100 |      100 |     100 |     100 |                   
+  ...odeToggle.jsx |    92.3 |    91.66 |     100 |    90.9 | 13                
+  Navbar.jsx       |   82.35 |       70 |    62.5 |     100 | 48-102            
+  ...ktopLinks.jsx |     100 |      100 |     100 |     100 |                   
+  ...obileMenu.jsx |   33.33 |     12.5 |      50 |   33.33 | 24-25             
+  navLinks.js      |     100 |      100 |     100 |     100 |                   
+ components/quiz   |   58.82 |    40.81 |      40 |    62.5 |                   
+  QuizAIChat.jsx   |   31.25 |    10.71 |    12.5 |   35.71 | 13-16,45-118      
+  ...atingView.jsx |     100 |       50 |     100 |     100 | 13                
+  ...gSkeleton.jsx |       0 |      100 |       0 |       0 | 5                 
+  ...tionsList.jsx |   91.66 |     87.5 |     100 |   91.66 | 15                
+  QuizQuestion.jsx |     100 |    81.81 |     100 |     100 | 84,112            
+  QuizResults.jsx  |       0 |      100 |       0 |       0 | 16                
+ components/shared |   82.35 |     92.3 |      80 |   86.66 |                   
+  FloatingChat.jsx |   66.66 |      100 |      50 |      60 | 19-20             
+  ...StateSync.jsx |      90 |       50 |     100 |     100 | 12                
+  ...ionHeader.jsx |     100 |      100 |     100 |     100 |                   
+ ...nents/timeline |   54.54 |    78.57 |      20 |      60 |                   
+  AskBotButton.jsx |       0 |      100 |       0 |       0 | 4-6               
+  ...EventCard.jsx |      75 |    78.57 |   33.33 |      75 | 68-112            
+ components/ui     |   84.61 |    92.45 |   76.92 |      88 |                   
+  Badge.jsx        |     100 |      100 |     100 |     100 |                   
+  Button.jsx       |     100 |      100 |     100 |     100 |                   
+  Card.jsx         |   76.92 |    77.77 |   71.42 |   83.33 | 90,121            
+  ProgressBar.jsx  |     100 |      100 |     100 |     100 |                   
+  Skeleton.jsx     |     100 |      100 |     100 |     100 |                   
+  Spinner.jsx      |   66.66 |      100 |      50 |   66.66 | 31                
+ .../voter-journey |   88.88 |      100 |      75 |   88.88 |                   
+  ...ogressBar.jsx |     100 |      100 |     100 |     100 |                   
+  ...avigation.jsx |      75 |      100 |      50 |      75 | 44                
+ ...-journey/steps |   68.75 |      100 |   54.54 |   66.66 |                   
+  ...igibility.jsx |     100 |      100 |     100 |     100 |                   
+  ...2Register.jsx |     100 |      100 |     100 |     100 |                   
+  ...erifyList.jsx |       0 |      100 |       0 |       0 | 2                 
+  Step4VoterID.jsx |       0 |      100 |       0 |       0 | 2-33              
+  ...ollingDay.jsx |       0 |      100 |       0 |       0 | 2                 
+  ...6Complete.jsx |       0 |      100 |       0 |       0 | 5                 
+ constants         |     100 |      100 |     100 |     100 |                   
+  index.ts         |     100 |      100 |     100 |     100 |                   
+ context           |     100 |      100 |     100 |     100 |                   
+  AppContext.jsx   |     100 |      100 |     100 |     100 |                   
+ data              |     100 |      100 |     100 |     100 |                   
+  ...tionStages.ts |     100 |      100 |     100 |     100 |                   
+  glossaryTerms.ts |     100 |      100 |     100 |     100 |                   
+  wizardSteps.js   |     100 |      100 |     100 |     100 |                   
+ hooks             |      82 |    65.16 |   88.88 |   87.54 |                   
+  useAuth.ts       |   72.54 |    35.71 |   85.71 |   80.43 | ...45,76-78,89-91 
+  useFirestore.ts  |   93.33 |    62.06 |   88.88 |     100 | 41-112,125-132    
+  ...Collection.ts |   88.57 |    88.88 |     100 |   88.23 | 37-39,74          
+  useGemini.ts     |   98.27 |    77.41 |     100 |     100 | 46,74-78,114,130  
+  useQuiz.js       |   56.06 |       50 |   72.72 |   60.78 | ...50,55-57,61-69 
+ pages             |   76.47 |    50.87 |      75 |   76.47 |                   
+  Dashboard.jsx    |     100 |       50 |     100 |     100 | 41                
+  Glossary.jsx     |   82.22 |    58.82 |      75 |   80.55 | 29-34,116-128     
+  Quiz.jsx         |     100 |    81.81 |     100 |     100 | 33,48             
+  Timeline.jsx     |   52.17 |     37.5 |      50 |   52.38 | 18-23,28-38,62    
+  VoterJourney.jsx |   73.52 |    31.57 |    87.5 |   76.66 | 39-40,56-68       
+ services          |   30.76 |    27.65 |      25 |   35.83 |                   
+  firebase.ts      |   64.81 |    51.21 |      50 |   70.83 | ...3,59-65,96-117 
+  gemini.js        |   10.11 |     9.43 |    8.33 |    12.5 | 12,51-101,109-190 
+ utils             |     100 |    96.15 |     100 |     100 |                   
+  helpers.ts       |     100 |       95 |     100 |     100 | 23                
+  logger.ts        |     100 |      100 |     100 |     100 |                   
+-------------------|---------|----------|---------|---------|-------------------
+ERROR: Coverage for lines (76.78%) does not meet global threshold (80%)
+ERROR: Coverage for functions (71.49%) does not meet global threshold (80%)
+ERROR: Coverage for statements (73.01%) does not meet global threshold (80%)
+ERROR: Coverage for branches (61.15%) does not meet global threshold (70%)

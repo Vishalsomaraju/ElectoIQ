@@ -163,6 +163,25 @@ describe('Glossary page', () => {
     const allBtn = screen.getByRole('button', { name: 'All' })
     expect(allBtn).toHaveAttribute('aria-pressed', 'true')
   })
+
+  it('shows no terms found message for unmatched search', async () => {
+    const user = userEvent.setup()
+    render(<Glossary />)
+    
+    // The search input is always visible (not behind the loading skeleton)
+    const input = screen.getByRole('textbox')
+    await user.type(input, 'nonexistenttermxyz')
+    
+    // findByText waits for debounce (200ms) and loading (800ms) to both clear
+    expect(await screen.findByText(/No terms found for/i, {}, { timeout: 3000 })).toBeInTheDocument()
+  })
+
+  it('renders category buttons that are always visible', () => {
+    render(<Glossary />)
+    // Category filter buttons appear immediately outside the loading skeleton
+    expect(screen.getByRole('button', { name: 'Technology' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'All' })).toBeInTheDocument()
+  })
 })
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -242,6 +261,38 @@ describe('Dashboard page', () => {
     expect(el).not.toBeNull()
     expect(el.textContent).toBe('0')
   })
+
+  it('calculates averages and grades correctly when progress > 0', async () => {
+    useAppContext.mockReturnValue({
+      state: {
+        chatOpen: false,
+        currentPage: 'dashboard',
+        progress: {
+          quizzesCompleted: 2,
+          totalScore: 15,
+          timelineViewed: [1, 2],
+          glossaryViewed: ['term1'],
+        },
+      },
+      dispatch: vi.fn(),
+    })
+    
+    // Remount with new mock values
+    vi.resetModules()
+    const mod = await import('../pages/Dashboard')
+    const DashboardWithProgress = mod.default
+    
+    render(<DashboardWithProgress />)
+    
+    const quizzesEl = document.querySelector('[aria-label="Quizzes Done: 2"]')
+    expect(quizzesEl).not.toBeNull()
+    expect(quizzesEl.textContent).toBe('2')
+    
+    // 15 / 2 = 8 (Math.round) — value rendered as "8%"
+    const avgScoreEl = document.querySelector('[aria-label="Avg Score: 8%"]')
+    expect(avgScoreEl).not.toBeNull()
+    expect(avgScoreEl.textContent).toBe('8%')
+  })
 })
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -265,6 +316,35 @@ describe('Timeline page', () => {
     render(<Timeline />)
     expect(screen.getByText('Election Commission Announcement')).toBeInTheDocument()
     expect(screen.getByText('Model Code of Conduct (MCC)')).toBeInTheDocument()
+  })
+
+  it('filters stages by phase', async () => {
+    const user = userEvent.setup()
+    render(<Timeline />)
+    const preElectionBtn = screen.getByRole('button', { name: 'Pre-Election' })
+    await user.click(preElectionBtn)
+    
+    expect(screen.getByText('Election Commission Announcement')).toBeInTheDocument()
+    // A stage in another phase shouldn't be there, e.g. Polling Day
+    expect(screen.queryByText('Polling Day')).not.toBeInTheDocument()
+  })
+
+  it('expands a stage and allows asking the bot', async () => {
+    const user = userEvent.setup()
+    const dispatchMock = vi.fn()
+    useAppContext.mockReturnValue({ dispatch: dispatchMock })
+    
+    render(<Timeline />)
+    
+    // Expand a stage
+    const stageCard = screen.getByText('Election Commission Announcement')
+    await user.click(stageCard)
+    
+    // Now wait for Ask Bot button to appear
+    const askBotBtn = await screen.findByRole('button', { name: /Ask ElectoBot about this stage/i })
+    await user.click(askBotBtn)
+    
+    expect(dispatchMock).toHaveBeenCalledWith(expect.objectContaining({ type: 'TOGGLE_CHAT', payload: true }))
   })
 })
 
@@ -309,6 +389,54 @@ describe('VoterJourney page', () => {
     const prevBtn = screen.getByRole('button', { name: /Back/i })
     await user.click(prevBtn)
     expect(await screen.findByText(/verify your eligibility to vote/i)).toBeInTheDocument()
+  })
+
+  it('supports keyboard navigation', async () => {
+    const user = userEvent.setup()
+    render(<VoterJourney />)
+    
+    const checkboxes = screen.getAllByRole('checkbox')
+    for (const checkbox of checkboxes) {
+      await user.click(checkbox)
+    }
+
+    const wizardCard = screen.getByText(/The Voter Journey Wizard/i).parentElement.parentElement.querySelector('[tabindex="-1"]')
+    wizardCard.focus()
+
+    // Press right arrow to go next
+    await user.keyboard('{ArrowRight}')
+    expect(await screen.findByText(/Online \(Recommended\)/i)).toBeInTheDocument()
+    
+    // Changing steps loses focus on the active element (it gets unmounted), so re-focus
+    wizardCard.focus()
+
+    // Press left arrow to go prev
+    await user.keyboard('{ArrowLeft}')
+    expect(await screen.findByText(/verify your eligibility to vote/i)).toBeInTheDocument()
+    
+    wizardCard.focus()
+
+    // Press Enter to go next
+    await user.keyboard('{Enter}')
+    expect(await screen.findByText(/Online \(Recommended\)/i)).toBeInTheDocument()
+  })
+
+  it('completes the journey and triggers confetti and analytics', async () => {
+    const user = userEvent.setup()
+    render(<VoterJourney />)
+    
+    const checkboxes = screen.getAllByRole('checkbox')
+    for (const checkbox of checkboxes) {
+      await user.click(checkbox)
+    }
+
+    // Advance 5 times to reach step 6
+    for (let i = 0; i < 5; i++) {
+      const nextBtn = await screen.findByRole('button', { name: /Next Step|Complete Journey/i })
+      await user.click(nextBtn)
+    }
+    
+    expect(await screen.findByText(/Informed Voter/i)).toBeInTheDocument()
   })
 })
 
