@@ -12,6 +12,9 @@ import {
 } from 'firebase/auth'
 import { auth, trackAnalyticsEvent } from '../services/firebase'
 
+// -- Google Service: Firebase Authentication -------------------------------
+// Minimal OAuth scopes -- only email + profile, no drive/calendar access
+// Docs: https://firebase.google.com/docs/auth/web/google-signin
 const googleProvider = new GoogleAuthProvider()
 googleProvider.addScope('email')
 googleProvider.addScope('profile')

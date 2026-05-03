@@ -101,7 +101,11 @@ describe('useAuth hook — auth configured', () => {
     const { result } = renderHook(() => useAuth())
 
     await act(async () => {
-      try { await result.current.signInWithGoogle() } catch (_) {}
+      try {
+        await result.current.signInWithGoogle()
+      } catch (caught) {
+        expect(caught).toBe(error)
+      }
     })
 
     expect(result.current.error).toBe('Redirect failed')
@@ -127,7 +131,11 @@ describe('useAuth hook — auth configured', () => {
     const { result } = renderHook(() => useAuth())
 
     await act(async () => {
-      try { await result.current.signInAsGuest() } catch (_) {}
+      try {
+        await result.current.signInAsGuest()
+      } catch (caught) {
+        expect(caught).toBe(error)
+      }
     })
 
     expect(result.current.error).toBe('Guest sign in failed')
@@ -151,7 +159,11 @@ describe('useAuth hook — auth configured', () => {
     const { result } = renderHook(() => useAuth())
 
     await act(async () => {
-      try { await result.current.logout() } catch (_) {}
+      try {
+        await result.current.logout()
+      } catch (caught) {
+        expect(caught).toBe(error)
+      }
     })
 
     expect(result.current.error).toBe('Logout failed')

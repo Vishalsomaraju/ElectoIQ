@@ -30,6 +30,7 @@ export function useGemini(): UseGeminiResult {
   const historyRef = useRef<{ role: string; content: string }[]>([])
   const lastSendRef = useRef<number>(0)
   const abortControllerRef = useRef<AbortController | null>(null)
+  // Rate limiting: minimum 500ms between API calls to prevent abuse
   const COOLDOWN_MS = 500
 
   const sendMessage = useCallback(async (userText: string, context: Record<string, string> = {}) => {
@@ -41,7 +42,6 @@ export function useGemini(): UseGeminiResult {
     }
     abortControllerRef.current = new AbortController()
 
-    // Rate limiting — minimum 500ms between sends to prevent API abuse
     const now = Date.now()
     if (now - lastSendRef.current < COOLDOWN_MS) return
     lastSendRef.current = now
