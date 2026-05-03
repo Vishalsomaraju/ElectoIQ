@@ -3,7 +3,7 @@
 // SDK: firebase/firestore ^12.x
 // Docs: https://firebase.google.com/docs/firestore/query-data/listen
 import { useState, useEffect } from 'react'
-import { collection, query, orderBy, limit, onSnapshot, Timestamp } from 'firebase/firestore'
+import { collection, query, orderBy, limit, onSnapshot, Timestamp, QueryConstraint } from 'firebase/firestore'
 import { db } from '../services/firebase'
 import { logger } from '../utils/logger'
 
@@ -38,7 +38,7 @@ export function useFirestoreCollection<T = Record<string, unknown>>(collectionNa
       setError('Firebase not configured')
       return
     }
-    const constraints: any[] = []
+    const constraints: QueryConstraint[] = []
     if (orderByField) constraints.push(orderBy(orderByField))
     constraints.push(limit(limitCount))
     const q = query(collection(db, collectionName), ...constraints)
@@ -47,7 +47,7 @@ export function useFirestoreCollection<T = Record<string, unknown>>(collectionNa
       (snapshot) => {
         const docs = snapshot.docs.map((doc) => {
           const raw = doc.data()
-          const out: any = { id: doc.id }
+          const out: Record<string, unknown> = { id: doc.id }
           for (const [k, v] of Object.entries(raw)) {
             out[k] = v instanceof Timestamp ? v.toDate() : v
           }

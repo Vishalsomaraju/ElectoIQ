@@ -3,7 +3,7 @@ import { useState, useCallback } from 'react'
 import { logger } from '../utils/logger'
 import {
   doc, getDoc, setDoc, updateDoc, deleteDoc,
-  collection, addDoc, getDocs, query, where, orderBy, limit, serverTimestamp, WhereFilterOp
+  collection, addDoc, getDocs, query, where, orderBy, limit, serverTimestamp, WhereFilterOp, QueryConstraint
 } from 'firebase/firestore'
 import { auth, db } from '../services/firebase'
 
@@ -31,8 +31,8 @@ export function useFirestore(collectionName: string): UseFirestoreResult {
     setLoading(true)
     setError(null)
     try {
-      const user = auth.currentUser
-      if (!user) throw new Error('[getDocument] requires authentication')
+      if (!auth?.currentUser) throw new Error('[getDocument] requires authentication')
+      if (!db) throw new Error('[getDocument] requires Firebase configuration')
       const ref = doc(db, collectionName, id)
       const snap = await getDoc(ref)
       return snap.exists() ? { id: snap.id, ...snap.data() } as (T & { id: string }) : null
@@ -49,8 +49,8 @@ export function useFirestore(collectionName: string): UseFirestoreResult {
     setLoading(true)
     setError(null)
     try {
-      const user = auth.currentUser
-      if (!user) throw new Error('[setDocument] requires authentication')
+      if (!auth?.currentUser) throw new Error('[setDocument] requires authentication')
+      if (!db) throw new Error('[setDocument] requires Firebase configuration')
       const ref = doc(db, collectionName, id)
       await setDoc(ref, { ...data, updatedAt: serverTimestamp() }, { merge: true })
       return true
@@ -67,8 +67,8 @@ export function useFirestore(collectionName: string): UseFirestoreResult {
     setLoading(true)
     setError(null)
     try {
-      const user = auth.currentUser
-      if (!user) throw new Error('[addDocument] requires authentication')
+      if (!auth?.currentUser) throw new Error('[addDocument] requires authentication')
+      if (!db) throw new Error('[addDocument] requires Firebase configuration')
       const ref = collection(db, collectionName)
       const docRef = await addDoc(ref, { ...data, createdAt: serverTimestamp() })
       return docRef.id
@@ -85,8 +85,8 @@ export function useFirestore(collectionName: string): UseFirestoreResult {
     setLoading(true)
     setError(null)
     try {
-      const user = auth.currentUser
-      if (!user) throw new Error('[updateDocument] requires authentication')
+      if (!auth?.currentUser) throw new Error('[updateDocument] requires authentication')
+      if (!db) throw new Error('[updateDocument] requires Firebase configuration')
       const ref = doc(db, collectionName, id)
       await updateDoc(ref, { ...data, updatedAt: serverTimestamp() })
       return true
@@ -103,8 +103,8 @@ export function useFirestore(collectionName: string): UseFirestoreResult {
     setLoading(true)
     setError(null)
     try {
-      const user = auth.currentUser
-      if (!user) throw new Error('[deleteDocument] requires authentication')
+      if (!auth?.currentUser) throw new Error('[deleteDocument] requires authentication')
+      if (!db) throw new Error('[deleteDocument] requires Firebase configuration')
       await deleteDoc(doc(db, collectionName, id))
       return true
     } catch (err: unknown) {
@@ -120,8 +120,9 @@ export function useFirestore(collectionName: string): UseFirestoreResult {
     setLoading(true)
     setError(null)
     try {
+      if (!db) throw new Error('[getCollection] requires Firebase configuration')
       let q = query(collection(db, collectionName))
-      const constraints: any[] = conditions.map(([field, op, val]) => where(field, op, val))
+      const constraints: QueryConstraint[] = conditions.map(([field, op, val]) => where(field, op, val))
       if (sortBy) constraints.push(orderBy(sortBy))
       constraints.push(limit(limitCount))
       q = query(q, ...constraints)

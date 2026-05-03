@@ -60,7 +60,7 @@ export default function App() {
                 Skip to main content
               </a>
               <Navbar />
-              <main id="main-content" className="flex-1 outline-none">
+              <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
                 <AnimatedRoutes />
               </main>
               <Footer />

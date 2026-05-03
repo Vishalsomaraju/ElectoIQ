@@ -38,7 +38,7 @@ export function Card({
         "glass rounded-2xl p-6 transition-all duration-300",
         hover && "hover:border-blue-500/30 hover:scale-[1.01]",
         isInteractive &&
-          "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-india-saffronfron focus-visible:ring-offset-2",
+          "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-india-saffron focus-visible:ring-offset-2",
         glow && "hover:glow-primary",
         className,
       )}

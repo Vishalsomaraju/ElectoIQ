@@ -35,7 +35,7 @@ export function NavbarMobileMenu({ open, isActive }) {
                     className={cn(
                       "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200",
                       active
-                        ? "bg-india-saffron/10n/10 dark:bg-india-saffron/15 text-india-saffron border border-india-saffron/20"
+                        ? "bg-india-saffron/10 dark:bg-india-saffron/15 text-india-saffron border border-india-saffron/20"
                         : "text-slate-600 dark:text-white/70 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/8",
                     )}
                   >

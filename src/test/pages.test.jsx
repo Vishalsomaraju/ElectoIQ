@@ -337,8 +337,10 @@ describe('Timeline page', () => {
     render(<Timeline />)
     
     // Expand a stage
-    const stageCard = screen.getByText('Election Commission Announcement')
-    await user.click(stageCard)
+    const detailsButton = screen.getByRole('button', {
+      name: /Show details for Election Commission Announcement/i,
+    })
+    await user.click(detailsButton)
     
     // Now wait for Ask Bot button to appear
     const askBotBtn = await screen.findByRole('button', { name: /Ask ElectoBot about this stage/i })

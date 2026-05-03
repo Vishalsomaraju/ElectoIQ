@@ -7,9 +7,7 @@ import { AnimatedPage } from "../components/shared/AnimatedPage";
 export default function NotFound() {
   return (
     <AnimatedPage>
-      <main
-        id="main-content"
-        tabIndex={-1}
+      <div
         className="min-h-screen flex flex-col items-center justify-center text-center px-6 pt-24"
       >
         <p
@@ -31,7 +29,7 @@ export default function NotFound() {
         >
           Back to Home
         </Link>
-      </main>
+      </div>
     </AnimatedPage>
   );
 }

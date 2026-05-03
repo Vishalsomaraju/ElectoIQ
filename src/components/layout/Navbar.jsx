@@ -50,14 +50,6 @@ export function Navbar() {
           : "py-5",
       )}
     >
-      {/* Skip to content */}
-      <a
-        href="#main-content"
-        className="absolute -top-full left-4 z-9999 px-4 py-2 bg-india-saffronfron text-white text-sm font-semibold rounded-br-xl focus:top-0 focus:outline-none transition-[top] duration-100"
-      >
-        Skip to main content
-      </a>
-
       <nav
         className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between"
         aria-label="Main navigation"

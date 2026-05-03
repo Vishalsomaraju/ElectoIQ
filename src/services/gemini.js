@@ -82,7 +82,7 @@ export async function sendMessage(message, history = []) {
  * @param {Function} fn - Async function to retry
  * @param {number} [maxRetries=3] - Maximum number of retry attempts
  * @param {number} [baseDelay=500] - Base delay in ms (doubles each attempt)
- * @returns {Promise<any>}
+ * @returns {Promise<unknown>}
  */
 async function withRetry(fn, maxRetries = 3, baseDelay = 500) {
   let lastErr

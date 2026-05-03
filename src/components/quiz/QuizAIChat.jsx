@@ -31,6 +31,9 @@ export function QuizAIChat({ current }) {
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             className="bg-white dark:bg-surface-dark/70 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-white/10 w-80 sm:w-96 flex flex-col shadow-2xl overflow-hidden"
             style={{ height: "460px" }}
+            role="dialog"
+            aria-modal="false"
+            aria-label="Quiz AI assistant"
           >
             {/* Chat header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 dark:border-white/10 bg-slate-50 dark:bg-white/5">
@@ -43,6 +46,7 @@ export function QuizAIChat({ current }) {
               </div>
               <button
                 onClick={() => setChatOpen(false)}
+                aria-label="Close AI assistant"
                 className="text-slate-500 dark:text-white/50 hover:text-slate-900 dark:hover:text-white"
               >
                 <X size={18} />
@@ -89,17 +93,25 @@ export function QuizAIChat({ current }) {
             </div>
 
             {/* Input */}
-            <div className="flex gap-2 px-3 pb-3 pt-2 border-t border-slate-100 dark:border-white/10">
+            <form
+              className="flex gap-2 px-3 pb-3 pt-2 border-t border-slate-100 dark:border-white/10"
+              onSubmit={(event) => {
+                event.preventDefault();
+                handleSend();
+              }}
+            >
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSend()}
                 placeholder="Ask about elections…"
+                aria-label="Message to quiz AI assistant"
+                maxLength={1000}
                 className="flex-1 bg-slate-100 dark:bg-white/10 rounded-xl px-3 py-2 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-white/40 outline-none focus:ring-1 focus:ring-blue-500/50"
               />
               <button
-                onClick={handleSend}
+                type="submit"
                 disabled={streaming || !input.trim()}
+                aria-label={streaming ? "Sending message" : "Send message"}
                 className="size-9 rounded-xl bg-primary flex items-center justify-center text-white disabled:opacity-40 hover:bg-primary-dark transition-colors"
               >
                 {streaming ? (
@@ -108,7 +120,7 @@ export function QuizAIChat({ current }) {
                   <Send size={15} />
                 )}
               </button>
-            </div>
+            </form>
           </motion.div>
         )}
       </AnimatePresence>

@@ -41,7 +41,7 @@ export function AuthButton({ compact = false }) {
           <img
             src={user.photoURL}
             alt={user.displayName ?? "User avatar"}
-            className="w-8 h-8 rounded-full ring-2 ring-india-saffronfron object-cover"
+            className="w-8 h-8 rounded-full ring-2 ring-india-saffron object-cover"
             referrerPolicy="no-referrer"
           />
         ) : (

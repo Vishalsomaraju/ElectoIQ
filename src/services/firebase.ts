@@ -17,11 +17,11 @@ const FIREBASE_CONFIGURED =
   import.meta.env.VITE_FIREBASE_API_KEY &&
   import.meta.env.VITE_FIREBASE_API_KEY !== 'UNCONFIGURED_API_KEY'
 
-let app = null as unknown as FirebaseApp
-let auth = null as unknown as Auth
-let db = null as unknown as Firestore
-let perf = null as unknown as FirebasePerformance
-let analytics = null as unknown as Analytics
+let app: FirebaseApp | null = null
+let auth: Auth | null = null
+let db: Firestore | null = null
+let perf: FirebasePerformance | null = null
+let analytics: Analytics | null = null
 
 if (FIREBASE_CONFIGURED) {
   try {

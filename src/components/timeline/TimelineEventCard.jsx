@@ -64,8 +64,7 @@ export const TimelineEventCard = React.memo(function TimelineEventCard({
         )}
       >
         <div
-          className="bg-white dark:bg-white/5 backdrop-blur-md rounded-2xl p-5 border border-slate-200 dark:border-white/10 shadow-sm cursor-pointer hover:border-slate-300 dark:hover:border-white/20 transition-all duration-300"
-          onClick={() => onToggle(stage)}
+          className="bg-white dark:bg-white/5 backdrop-blur-md rounded-2xl p-5 border border-slate-200 dark:border-white/10 shadow-sm hover:border-slate-300 dark:hover:border-white/20 transition-all duration-300"
         >
           <div
             className={cn(
@@ -88,8 +87,11 @@ export const TimelineEventCard = React.memo(function TimelineEventCard({
           </p>
 
           <button
+            type="button"
             aria-expanded={isExpanded}
             aria-controls={`stage-details-${stage.id}`}
+            aria-label={`${isExpanded ? 'Hide' : 'Show'} details for ${stage.title}`}
+            onClick={() => onToggle(stage)}
             className="mt-3 flex items-center gap-1 text-xs text-slate-400 dark:text-white/40 hover:text-slate-700 dark:hover:text-white/70 transition-colors"
           >
             {isExpanded ? (
