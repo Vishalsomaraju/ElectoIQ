@@ -1,5 +1,5 @@
 // src/App.jsx
-import { lazy, Suspense, useState, useEffect } from 'react'
+import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import { AuthProvider } from './context/AuthContext'
@@ -21,44 +21,15 @@ const Glossary = lazy(() => import('./pages/Glossary'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
-const pageNames = {
-  '/': 'Home — ElectoIQ',
-  '/timeline': 'Election Timeline — ElectoIQ',
-  '/voter-journey': 'Voter Journey — ElectoIQ',
-  '/quiz': 'Civic Quiz — ElectoIQ',
-  '/glossary': 'Glossary — ElectoIQ',
-  '/dashboard': 'Dashboard — ElectoIQ',
-}
 
-function RouteAnnouncer() {
-  const { pathname } = useLocation()
-  const [announcement, setAnnouncement] = useState('')
 
-  useEffect(() => {
-    const name = pageNames[pathname] ?? 'ElectoIQ'
-    setAnnouncement('')
-    const t = setTimeout(() => setAnnouncement(`Navigated to ${name}`), 100)
-    return () => clearTimeout(t)
-  }, [pathname])
 
-  return (
-    <div
-      role="status"
-      aria-live="polite"
-      aria-atomic="true"
-      className="sr-only"
-    >
-      {announcement}
-    </div>
-  )
-}
 
 function AnimatedRoutes() {
   const location = useLocation()
 
   return (
     <>
-      <RouteAnnouncer />
       <AnimatePresence mode="wait">
         <Suspense fallback={<div className="flex h-[80vh] items-center justify-center"><Spinner size="lg" /></div>}>
         <Routes location={location} key={location.pathname}>

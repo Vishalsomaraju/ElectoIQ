@@ -16,6 +16,7 @@ export default function VoterJourney() {
   const [currentStep, setCurrentStep] = useState(1);
   const [direction, setDirection] = useState(1); // 1 = forward, -1 = backward
   const previousStepRef = useRef(currentStep);
+  const wizardRef = useRef(null);
   const { currentUser } = useAuthContext();
   const { setDocument } = useFirestore("users");
 
@@ -34,14 +35,14 @@ export default function VoterJourney() {
   }, [currentStep]);
 
   // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "ArrowRight" || e.key === "Enter") handleNext();
-      if (e.key === "ArrowLeft") handlePrev();
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+  const handleKeyDown = useCallback((e) => {
+    if (e.key === "ArrowRight" || e.key === "Enter") handleNext();
+    if (e.key === "ArrowLeft") handlePrev();
   }, [handleNext, handlePrev]);
+
+  useEffect(() => {
+    wizardRef.current?.focus();
+  }, []);
 
   // Effects per step
   useEffect(() => {
@@ -105,7 +106,12 @@ export default function VoterJourney() {
           )}
 
           {/* Main Wizard Card */}
-          <div className="bg-white dark:bg-white/5 backdrop-blur-md rounded-3xl border border-slate-200 dark:border-white/10 overflow-hidden shadow-2xl relative min-h-[400px] flex flex-col">
+          <div
+            ref={wizardRef}
+            tabIndex={-1}
+            onKeyDown={handleKeyDown}
+            className="bg-white dark:bg-white/5 backdrop-blur-md rounded-3xl border border-slate-200 dark:border-white/10 overflow-hidden shadow-2xl relative min-h-[400px] flex flex-col focus:outline-none"
+          >
             <div className="flex-1 p-6 md:p-10 relative overflow-hidden">
               <AnimatePresence mode="popLayout" custom={direction}>
                 <motion.div
