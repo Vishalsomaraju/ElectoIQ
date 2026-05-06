@@ -40,8 +40,17 @@ const FIREBASE_CONFIGURED =
   import.meta.env.VITE_FIREBASE_API_KEY !== 'UNCONFIGURED_API_KEY'
 
 const RECAPTCHA_CONFIGURED =
-  import.meta.env.VITE_RECAPTCHA_SITE_KEY &&
+  !!import.meta.env.VITE_RECAPTCHA_SITE_KEY &&
   import.meta.env.VITE_RECAPTCHA_SITE_KEY !== 'UNCONFIGURED_RECAPTCHA_KEY'
+
+/**
+ * `true` when a Google Analytics measurement ID is present.
+ * When `false`, Analytics (and the gtag script tag) are skipped entirely,
+ * preventing the `id=undefined` CSP violation.
+ */
+const GA_CONFIGURED =
+  !!import.meta.env.VITE_GA_ID &&
+  import.meta.env.VITE_GA_ID !== 'UNCONFIGURED_GA_ID'
 
 // ---------------------------------------------------------------------------
 // Service singletons
@@ -109,14 +118,18 @@ if (FIREBASE_CONFIGURED) {
         : _perfError)
     }
 
-    // Analytics (non-critical — failure does not block the app)
-    try {
-      analytics = getAnalytics(app)
-      logEvent(analytics, 'app_open', { platform: 'web' })
-    } catch (_analyticsError) {
-      logger.warn('[ElectoIQ] Analytics unavailable:', _analyticsError instanceof Error
-        ? _analyticsError.message
-        : _analyticsError)
+    // Analytics — only initialise when a valid GA Measurement ID is provided.
+    // Skipping when VITE_GA_ID is blank prevents the browser from attempting
+    // to load `gtag/js?id=undefined`, which would trigger a CSP violation.
+    if (GA_CONFIGURED) {
+      try {
+        analytics = getAnalytics(app)
+        logEvent(analytics, 'app_open', { platform: 'web' })
+      } catch (_analyticsError) {
+        logger.warn('[ElectoIQ] Analytics unavailable:', _analyticsError instanceof Error
+          ? _analyticsError.message
+          : _analyticsError)
+      }
     }
   } catch (err) {
     // Redact any API key fragments that may appear in Firebase error messages

@@ -31,8 +31,21 @@ export default defineConfig({
   server: {
     headers: {
       'Cross-Origin-Opener-Policy': 'same-origin',
-      'Cross-Origin-Embedder-Policy': 'require-corp',
-      'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://apis.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://generativelanguage.googleapis.com https://*.firebaseio.com https://*.googleapis.com wss://*.firebaseio.com; frame-src 'self' https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/;",
+      // 'credentialless' allows cross-origin resources that don't carry credentials
+      // (e.g. Firebase performance/logging) without blocking them as 'require-corp' would.
+      'Cross-Origin-Embedder-Policy': 'credentialless',
+      'Content-Security-Policy': [
+        "default-src 'self'",
+        // Allow inline scripts (Vite HMR) and eval (Vite dev transforms),
+        // reCAPTCHA, Google APIs, and Google Tag Manager (for Firebase Analytics)
+        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://apis.google.com https://www.googletagmanager.com",
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+        "img-src 'self' data: https:",
+        "font-src 'self' data: https://fonts.gstatic.com",
+        // Extend connect-src to cover Firebase logging and GTM measurement endpoints
+        "connect-src 'self' https://generativelanguage.googleapis.com https://*.firebaseio.com https://*.googleapis.com wss://*.firebaseio.com https://firebaselogging-pa.googleapis.com https://www.googletagmanager.com https://www.google-analytics.com",
+        "frame-src 'self' https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/",
+      ].join('; '),
       'X-Content-Type-Options': 'nosniff',
       'X-Frame-Options': 'DENY',
       'Referrer-Policy': 'strict-origin-when-cross-origin',

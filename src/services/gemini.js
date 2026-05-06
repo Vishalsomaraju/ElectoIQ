@@ -96,9 +96,14 @@ function isRateLimited() {
 /** Delay schedule for exponential back-off (in milliseconds). */
 const RETRY_DELAYS_MS = [500, 1_000, 2_000]
 
+/** Friendly message shown in the UI when the Gemini free-tier quota is used up. */
+const QUOTA_EXCEEDED_MESSAGE =
+  'AI quota reached for today. Please try again later, or check your Gemini API plan.'
+
 /**
  * Runs `fn`, retrying with exponential back-off on transient server errors
- * (HTTP 429, 500, 503). Throws immediately on non-retryable errors.
+ * (HTTP 500, 503). Throws immediately on 429 (quota exceeded) with a
+ * user-friendly message, and on other non-retryable errors.
  *
  * @param {() => Promise<any>} fn - Async operation to retry
  * @param {number} [maxRetries=3] - Maximum number of additional attempts after the first
@@ -114,8 +119,13 @@ async function withRetry(fn, maxRetries = 3, baseDelayMs = 500) {
     } catch (err) {
       lastError = err
       const httpStatus = err?.status
-      const isTransientError = httpStatus === 429 || httpStatus === 500 || httpStatus === 503
 
+      // 429 = quota/rate limit — retrying won't help; surface a friendly message immediately
+      if (httpStatus === 429) {
+        throw new Error(QUOTA_EXCEEDED_MESSAGE)
+      }
+
+      const isTransientError = httpStatus === 500 || httpStatus === 503
       if (!isTransientError || attempt === maxRetries) throw err
 
       const delayMs = baseDelayMs * Math.pow(2, attempt)
