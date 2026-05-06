@@ -180,7 +180,7 @@ describe('useAuth hook — auth configured', () => {
     })
 
     expect(logger.warn).toHaveBeenCalledWith(
-      '[useAuth] Redirect result error:',
+      '[useAuth] Google redirect result error:',
       'Redirect result error',
     )
   })

@@ -221,7 +221,7 @@ describe('gemini service', () => {
       await promise
       
       expect(caughtError).toBeDefined()
-      expect(caughtError.message).toBe('AI returned invalid quiz format')
+      expect(caughtError.message).toBe('AI returned invalid quiz format (not valid JSON)')
     })
 
     it('generateQuiz validates array response', async () => {
